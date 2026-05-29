@@ -133,3 +133,18 @@ square(Sudoku, K, Square):-
 	Pi is (K//3)*3,
 	Pj is (K mod 3)*3,
 	getSquareFrom(Sudoku, Pi, Pj, Square).
+
+% exe7
+checkDuplicates(_,[]).
+checkDuplicates(X,[Y|Sublist]) :-
+	X \= Y,
+	checkDuplicates(X,Sublist).
+withoutDuplicates([]).
+withoutDuplicates([X|Sublist]) :-
+	var(X),
+	checkDuplicates(X,Sublist),
+	withoutDuplicates(Sublist).
+withoutDuplicates([X|Sublist]) :-
+	nonvar(X),
+	withoutDuplicates(Sublist).
+
