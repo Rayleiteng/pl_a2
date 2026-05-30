@@ -70,7 +70,6 @@ isValidRow(Row) :-
   
 isSudokuPuzzle(Sudoku) :-
 	length(Sudoku, 9),
-	%长度要验证吗
 	maplist(isValidRow, Sudoku).
 
 % Exe6
