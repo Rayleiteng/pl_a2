@@ -75,7 +75,7 @@ isSudokuPuzzle(Sudoku) :-
 
 % Exe6
 % (a)
-findPositionOfRow([Entry|Subrow], 0, Entry).
+findPositionOfRow([Entry|_], 0, Entry).
 findPositionOfRow([_|Subrow], J, Entry) :-
 	J >= 0,
 	J < 9,
@@ -135,16 +135,22 @@ square(Sudoku, K, Square):-
 	getSquareFrom(Sudoku, Pi, Pj, Square).
 
 % exe7
-checkDuplicates(_,[]).
-checkDuplicates(X,[Y|Sublist]) :-
+% (a)
+checkDuplicates(_, []).
+checkDuplicates(X, [Y|Sublist]) :-
+	var(Y),
+	checkDuplicates(X, Sublist).
+checkDuplicates(X, [Y|Sublist]) :-
+	nonvar(Y),
 	X \= Y,
-	checkDuplicates(X,Sublist).
+	checkDuplicates(X, Sublist).
 withoutDuplicates([]).
 withoutDuplicates([X|Sublist]) :-
 	var(X),
-	checkDuplicates(X,Sublist),
 	withoutDuplicates(Sublist).
 withoutDuplicates([X|Sublist]) :-
 	nonvar(X),
+	checkDuplicates(X, Sublist),
 	withoutDuplicates(Sublist).
 
+% (b)
