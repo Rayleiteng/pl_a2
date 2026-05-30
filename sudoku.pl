@@ -154,3 +154,32 @@ withoutDuplicates([X|Sublist]) :-
 	withoutDuplicates(Sublist).
 
 % (b)
+solveEntry(_, 9, 0).
+solveEntry(Sudoku, I, 8) :-
+	I < 9,
+	I1 is I + 1,
+	solveEntry(Sudoku, I1, 0),
+	entry(Sudoku, I, 8, Entry),
+	isDigit(Entry),
+	checkConditions(Sudoku, I, 8).
+
+solveEntry(Sudoku, I, J) :-
+	I < 9,
+	J < 9,
+	J1 is J + 1,
+	solveEntry(Sudoku, I, J1),
+	entry(Sudoku, I, J, Entry),
+	isDigit(Entry),
+	checkConditions(Sudoku, I, J).
+
+checkConditions(Sudoku, I, J):-
+	row(Sudoku, I, Row),
+	column(Sudoku, J, Column),
+	K is (I//3)*3 + (J//3),
+	square(Sudoku, K, Square),
+	withoutDuplicates(Row),
+	withoutDuplicates(Column),
+	withoutDuplicates(Square).
+solve(Sudoku) :-
+	isSudokuPuzzle(Sudoku),
+	solveEntry(Sudoku, 0, 0).
