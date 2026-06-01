@@ -45,8 +45,15 @@ showEntry(X) :- nonvar(X), write(X).
 
 % Exe5
 % (a)
-isDigit(X) :-
-	between(1, 9, X).
+isDigit(1).
+isDigit(2).
+isDigit(3).
+isDigit(4).
+isDigit(5).
+isDigit(6).
+isDigit(7).
+isDigit(8).
+isDigit(9).
 
 % (b)
 isElement(X) :-
@@ -56,21 +63,46 @@ isElement(X) :-
 	isDigit(X).
 
 % (c)
+len([], 0).
+len([_|Xs], N) :- 
+    len(Xs, N1), 
+    N is N1 + 1.
+
 emptyRow(Row) :-
-	length(Row, 9).
+	len(Row, 9).
+
+mapOnRows([],0).
+mapOnRows([Row|SubSudoku],N) :-
+	N > 0,
+	N1 is N - 1,
+	emptyRow(Row),
+	mapOnRows(SubSudoku,N1).
 
 emptySudoku(Sudoku) :-
-	length(Sudoku, 9),
-	maplist(emptyRow, Sudoku).
+	len(Sudoku,9),
+	mapOnRows(Sudoku,9).
 
 % (d)
+checkEntries([],0).
+checkEntries([Entry|SubRows],N) :-
+	N > 0,
+	N1 is N - 1,
+	isElement(Entry),
+	checkEntries(SubRows,N1).
+
 isValidRow(Row) :-
-	length(Row, 9),
-	maplist(isElement, Row).
-  
+	len(Row, 9),
+	checkEntries(Row,9).
+
+checkRows([],0).
+checkRows([Row|SubSudoku],N) :-
+	N > 0,
+	N1 is N - 1,
+	isValidRow(Row),
+	checkRows(SubSudoku,N1).
 isSudokuPuzzle(Sudoku) :-
-	length(Sudoku, 9),
-	maplist(isValidRow, Sudoku).
+	len(Sudoku, 9),
+	checkRows(Sudoku,9).
 
 % Exe6
 % (a)
@@ -79,7 +111,7 @@ findPositionOfRow([_|Subrow], J, Entry) :-
 	J >= 0,
 	J < 9,
 	J1 is J - 1,
-	length(Subrow, L),
+	len(Subrow, L),
 	L >= J1,
 	findPositionOfRow(Subrow, J1, Entry).
 
@@ -93,7 +125,7 @@ row([_|Submatrix], I, Row) :-
 	I >= 0,
 	I < 9,
 	I1 is I - 1,
-	length(Submatrix, L),
+	len(Submatrix, L),
 	L >= I1,
 	row(Submatrix, I1, Row).
 
