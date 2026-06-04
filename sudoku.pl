@@ -45,15 +45,8 @@ showEntry(X) :- nonvar(X), write(X).
 
 % Exe5
 % (a)
-isDigit(1).
-isDigit(2).
-isDigit(3).
-isDigit(4).
-isDigit(5).
-isDigit(6).
-isDigit(7).
-isDigit(8).
-isDigit(9).
+isDigit(X):- between(1, 9, X).
+
 
 % (b)
 isElement(X) :-
